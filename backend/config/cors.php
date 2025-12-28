@@ -2,18 +2,22 @@
 
 return [
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie', 'login', 'register'], // Ensure login/register are covered
+    'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [
-        'http://localhost:5173', 
-        'https://front-production-d34e.up.railway.app'
+    'allowed_origins' => array_filter([
+        'http://localhost:5173',
+        'http://127.0.0.1:5173',
+        'https://front-production-d34e.up.railway.app',
+        env('FRONTEND_URL'),  // Railway can set this
+    ]),
+
+    'allowed_origins_patterns' => [
+        '#^https://.*\.up\.railway\.app$#',  // Allow any Railway subdomain
     ],
 
-    'allowed_origins_patterns' => [],
-
-    'allowed_headers' => ['*'], // Use wildcard to avoid preflight failures
+    'allowed_headers' => ['*'],
 
     'exposed_headers' => [],
 
