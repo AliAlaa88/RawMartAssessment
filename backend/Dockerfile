@@ -13,19 +13,12 @@ WORKDIR /app
 # Copy files
 COPY . .
 
-# --- FIX START ---
-# 1. Create missing directories that might be gitignored
-RUN mkdir -p storage/framework/sessions storage/framework/views storage/framework/cache bootstrap/cache
+# Create the directory and set permissions
+RUN mkdir -p bootstrap/cache storage/framework/cache storage/framework/sessions storage/framework/views
+RUN chown -R www-data:www-data storage bootstrap/cache
+RUN chmod -R 775 storage bootstrap/cache
 
-# 2. Set permissions BEFORE running composer install
-# This ensures the 'root' user (who runs the build) can write the discovery files
-RUN chown -R www-data:www-data storage bootstrap/cache && \
-    chmod -R 775 storage bootstrap/cache
-# --- FIX END ---
-
-# Install PHP deps
-# The --no-scripts flag is an alternative if permissions still act up, 
-# but setting permissions first is the standard fix.
+# THEN run composer
 RUN composer install --no-dev --optimize-autoloader
 
 EXPOSE 8000
