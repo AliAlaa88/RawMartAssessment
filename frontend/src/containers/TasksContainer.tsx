@@ -39,17 +39,14 @@ export function TasksContainer() {
   };
 
   const handleSubmitTask = async (data: CreateTaskRequest) => {
-    // Close modal immediately for optimistic UX
     setIsModalOpen(false);
     
-    // Fire API call in background (optimistic update happens inside hook)
     if (editingTask) {
       updateTask(editingTask.id, data, editingTask);
     } else {
       createTask(data);
     }
     
-    // Clear editing task
     setEditingTask(undefined);
   };
 

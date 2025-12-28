@@ -38,7 +38,6 @@ export function useTasks(user: User | null, perPage: number = 10) {
     fetchTasks(currentPage);
   }, [currentPage, fetchTasks]);
 
-  // Optimistic update helpers
   const updateTaskInList = (taskId: number, updates: Partial<Task>) => {
     setTasks((prev) => {
       if (!prev) return prev;
@@ -65,7 +64,6 @@ export function useTasks(user: User | null, perPage: number = 10) {
   const createTask = async (data: CreateTaskRequest) => {
     setIsSubmitting(true);
     try {
-      // TRUE optimistic insert
       const tempId = -Date.now();
       const tempTask: Task = {
         id: tempId,
@@ -114,7 +112,6 @@ export function useTasks(user: User | null, perPage: number = 10) {
   ) => {
     setIsSubmitting(true);
     try {
-      // Optimistic update
       updateTaskInList(taskId, {
         title: data.title,
         description: data.description || null,

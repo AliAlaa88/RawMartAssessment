@@ -8,14 +8,10 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the user's tasks.
-     */
     public function index(Request $request): JsonResponse
     {
         $perPage = min((int) $request->input('per_page', 10), 50);
         
-        // Sort by deadline ascending (urgent first), nulls last, then by created_at desc
         $tasks = $request->user()
             ->tasks()
             ->orderByRaw('CASE WHEN deadline IS NULL THEN 1 ELSE 0 END')
@@ -26,9 +22,6 @@ class TaskController extends Controller
         return response()->json($tasks);
     }
 
-    /**
-     * Store a newly created task.
-     */
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -51,12 +44,8 @@ class TaskController extends Controller
         ], 201);
     }
 
-    /**
-     * Display the specified task.
-     */
     public function show(Request $request, Task $task): JsonResponse
     {
-        // Ensure user owns this task
         if ($task->user_id !== $request->user()->id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
@@ -64,12 +53,8 @@ class TaskController extends Controller
         return response()->json($task);
     }
 
-    /**
-     * Update the specified task.
-     */
     public function update(Request $request, Task $task): JsonResponse
     {
-        // Ensure user owns this task
         if ($task->user_id !== $request->user()->id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
@@ -89,12 +74,8 @@ class TaskController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified task.
-     */
     public function destroy(Request $request, Task $task): JsonResponse
     {
-        // Ensure user owns this task
         if ($task->user_id !== $request->user()->id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }

@@ -99,6 +99,14 @@
   .border-primary {
     border-color: var(--color-border);
   }
+  .border-danger {
+    border-color: var(--color-danger);
+  }
+
+  /* Text danger */
+  .text-danger {
+    color: var(--color-danger);
+  }
 
   /* Status backgrounds */
   .bg-status-pending {

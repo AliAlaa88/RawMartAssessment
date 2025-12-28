@@ -43,7 +43,7 @@ export function LoginView({
         </h1>
 
         {error && (
-          <div className="mb-4 p-3 bg-[--color-danger]/10 border border-[--color-danger] rounded-lg text-[--color-danger] text-sm">
+          <div className="mb-4 p-3 bg-danger/10 border border-danger rounded-lg text-danger text-sm">
             {error}
           </div>
         )}

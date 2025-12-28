@@ -24,9 +24,6 @@ class Task extends Model
         'updated_at' => 'datetime',
     ];
 
-    /**
-     * Get the user that owns the task.
-     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

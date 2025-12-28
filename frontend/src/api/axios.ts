@@ -10,7 +10,6 @@ const api = axios.create({
   },
 });
 
-// Request interceptor - attach token
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("access_token");
@@ -22,7 +21,6 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response interceptor - handle 401
 api.interceptors.response.use(
   (response) => response,
   (error) => {

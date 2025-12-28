@@ -10,9 +10,6 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    /**
-     * Register a new user.
-     */
     public function register(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -36,9 +33,6 @@ class AuthController extends Controller
         ], 201);
     }
 
-    /**
-     * Login user and create token.
-     */
     public function login(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -63,9 +57,6 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Logout user (revoke token).
-     */
     public function logout(Request $request): JsonResponse
     {
         $request->user()->currentAccessToken()->delete();
@@ -75,9 +66,6 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Get authenticated user.
-     */
     public function user(Request $request): JsonResponse
     {
         return response()->json($request->user());

@@ -64,6 +64,7 @@
     "required": "This field is required",
     "invalidEmail": "Please enter a valid email",
     "passwordMin": "Password must be at least 8 characters",
+    "passwordWeak": "Password must include uppercase, lowercase, number, and special character",
     "passwordMatch": "Passwords do not match"
   }
 }

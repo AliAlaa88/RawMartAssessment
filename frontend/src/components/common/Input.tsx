@@ -23,11 +23,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         <input
           ref={ref}
           id={inputId}
-          className={`input ${error ? 'border-[--color-danger] focus:ring-[--color-danger]' : ''} ${className}`}
+          className={`input ${error ? 'border-danger focus:ring-danger' : ''} ${className}`}
           {...props}
         />
         {error && (
-          <p className="mt-1 text-sm text-[--color-danger]">{error}</p>
+          <p className="mt-1 text-sm text-danger">{error}</p>
         )}
       </div>
     );

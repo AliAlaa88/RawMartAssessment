@@ -41,7 +41,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       await authApi.logout();
     } catch (error) {
-      // Ignore errors during logout
     } finally {
       localStorage.removeItem('access_token');
       localStorage.removeItem('user');

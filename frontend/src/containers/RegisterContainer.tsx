@@ -23,8 +23,27 @@ export function RegisterContainer() {
     const newErrors: Record<string, string> = {};
     
     if (!name.trim()) newErrors.name = t('errors.required');
-    if (!email.trim()) newErrors.email = t('errors.required');
-    if (password.length < 8) newErrors.password = t('errors.passwordMin');
+    
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email.trim()) {
+      newErrors.email = t('errors.required');
+    } else if (!emailRegex.test(email)) {
+      newErrors.email = t('errors.invalidEmail');
+    }
+    
+    // Strong password validation
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    
+    if (password.length < 8) {
+      newErrors.password = t('errors.passwordMin');
+    } else if (!hasUppercase || !hasLowercase || !hasNumber || !hasSpecial) {
+      newErrors.password = t('errors.passwordWeak');
+    }
+    
     if (password !== passwordConfirm) newErrors.passwordConfirm = t('errors.passwordMatch');
     
     setErrors(newErrors);

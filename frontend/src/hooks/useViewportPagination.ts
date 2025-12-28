@@ -1,12 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
 
-const TASK_ITEM_HEIGHT = 100; // Approximate height of a task card in pixels
-const HEADER_HEIGHT = 64; // Header height
-const TOOLBAR_HEIGHT = 56; // Toolbar height
-const PAGINATION_HEIGHT = 56; // Pagination bar height
-const PADDING = 64; // Top and bottom padding + margins
-const MIN_ITEMS = 2; // Minimum items per page
-const MAX_ITEMS = 15; // Maximum items per page
+const TASK_ITEM_HEIGHT = 100;
+const HEADER_HEIGHT = 64;
+const TOOLBAR_HEIGHT = 56;
+const PAGINATION_HEIGHT = 56;
+const PADDING = 64;
+const MIN_ITEMS = 2;
+const MAX_ITEMS = 15;
 
 export function useViewportPagination() {
   const calculateItemsPerPage = useCallback(() => {

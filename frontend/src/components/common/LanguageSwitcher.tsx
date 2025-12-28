@@ -10,7 +10,6 @@ export function LanguageSwitcher() {
     i18n.changeLanguage(newLang);
     localStorage.setItem('language', newLang);
     
-    // Update document direction for RTL support
     document.documentElement.dir = newLang === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.lang = newLang;
   };
