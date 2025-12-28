@@ -21,6 +21,7 @@ RUN chmod -R 775 storage bootstrap/cache
 # THEN run composer
 RUN composer install --no-dev --optimize-autoloader
 
-EXPOSE 8000
+# Railway sets PORT env var - must use it
+EXPOSE ${PORT:-8000}
 
-CMD php artisan serve --host=0.0.0.0 --port=8000
+CMD php artisan serve --host=0.0.0.0 --port=${PORT:-8000}
