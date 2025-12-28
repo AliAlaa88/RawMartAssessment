@@ -21,6 +21,9 @@ RUN chmod -R 775 storage bootstrap/cache
 # THEN run composer
 RUN composer install --no-dev --optimize-autoloader
 
+# Cache config for production (includes CORS settings)
+RUN php artisan config:cache
+
 EXPOSE 8000
 
 CMD php artisan serve --host=0.0.0.0 --port=8000
