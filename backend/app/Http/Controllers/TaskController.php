@@ -13,10 +13,15 @@ class TaskController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $perPage = min((int) $request->input('per_page', 10), 50);
+        
+        // Sort by deadline ascending (urgent first), nulls last, then by created_at desc
         $tasks = $request->user()
             ->tasks()
+            ->orderByRaw('CASE WHEN deadline IS NULL THEN 1 ELSE 0 END')
+            ->orderBy('deadline', 'asc')
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate($perPage);
 
         return response()->json($tasks);
     }
@@ -30,12 +35,14 @@ class TaskController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'status' => 'nullable|in:pending,in_progress,done',
+            'deadline' => 'nullable|date',
         ]);
 
         $task = $request->user()->tasks()->create([
             'title' => $validated['title'],
             'description' => $validated['description'] ?? null,
             'status' => $validated['status'] ?? 'pending',
+            'deadline' => $validated['deadline'] ?? null,
         ]);
 
         return response()->json([
@@ -71,6 +78,7 @@ class TaskController extends Controller
             'title' => 'sometimes|required|string|max:255',
             'description' => 'nullable|string',
             'status' => 'sometimes|in:pending,in_progress,done',
+            'deadline' => 'nullable|date',
         ]);
 
         $task->update($validated);

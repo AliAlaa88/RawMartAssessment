@@ -14,10 +14,12 @@ class Task extends Model
         'title',
         'description',
         'status',
+        'deadline',
         'user_id',
     ];
 
     protected $casts = [
+        'deadline' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, Input } from '@/components/common';
+import { TaskStatusSelect } from '../TaskStatusSelect';
 import type { Task, TaskStatus, CreateTaskRequest } from '@/types';
 
 interface TaskFormProps {
@@ -16,6 +17,9 @@ export function TaskForm({ task, onSubmit, onCancel, isLoading }: TaskFormProps)
   const [title, setTitle] = useState(task?.title || '');
   const [description, setDescription] = useState(task?.description || '');
   const [status, setStatus] = useState<TaskStatus>(task?.status || 'pending');
+  const [deadline, setDeadline] = useState(
+    task?.deadline ? new Date(task.deadline).toISOString().slice(0, 16) : ''
+  );
   const [error, setError] = useState('');
 
   const handleSubmit = async (e: FormEvent) => {
@@ -27,7 +31,12 @@ export function TaskForm({ task, onSubmit, onCancel, isLoading }: TaskFormProps)
       return;
     }
 
-    await onSubmit({ title, description, status });
+    await onSubmit({
+      title,
+      description,
+      status,
+      deadline: deadline ? new Date(deadline).toISOString() : null,
+    });
   };
 
   return (
@@ -54,17 +63,21 @@ export function TaskForm({ task, onSubmit, onCancel, isLoading }: TaskFormProps)
 
       <div>
         <label className="block text-sm font-medium text-secondary mb-1">
+          {t('tasks.deadline')}
+        </label>
+        <input
+          type="datetime-local"
+          value={deadline}
+          onChange={(e) => setDeadline(e.target.value)}
+          className="input"
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-secondary mb-1">
           {t('tasks.taskStatus')}
         </label>
-        <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value as TaskStatus)}
-          className="input"
-        >
-          <option value="pending">{t('tasks.status.pending')}</option>
-          <option value="in_progress">{t('tasks.status.in_progress')}</option>
-          <option value="done">{t('tasks.status.done')}</option>
-        </select>
+        <TaskStatusSelect value={status} onChange={setStatus} />
       </div>
 
       <div className="flex gap-3 pt-2">

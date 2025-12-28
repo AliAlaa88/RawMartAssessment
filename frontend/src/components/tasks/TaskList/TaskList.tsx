@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { TaskItem } from './TaskItem';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { TaskItem } from '../TaskItem';
 import { Spinner, Button } from '@/components/common';
 import type { Task, TaskStatus, PaginatedTasks } from '@/types';
 
@@ -20,11 +21,12 @@ export function TaskList({
   onStatusChange,
   onPageChange,
 }: TaskListProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === 'ar';
 
   if (isLoading) {
     return (
-      <div className="py-12">
+      <div className="py-12" role="status" aria-label={t('common.loading')}>
         <Spinner size="lg" />
       </div>
     );
@@ -54,25 +56,31 @@ export function TaskList({
 
       {/* Pagination */}
       {tasks.last_page > 1 && (
-        <div className="flex justify-center gap-2 pt-4">
+        <nav className="flex justify-center gap-2 pt-4" aria-label={t('common.pagination')}>
           <Button
+            className="flex items-center gap-2"
             variant="secondary"
             onClick={() => onPageChange(tasks.current_page - 1)}
             disabled={tasks.current_page === 1}
+            aria-label={t('common.previous')}
           >
-            Previous
+            {isRTL ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+            {t('common.previous')}
           </Button>
-          <span className="flex items-center px-4 text-secondary">
-            Page {tasks.current_page} of {tasks.last_page}
+          <span className="flex items-center px-4 text-secondary" aria-current="page">
+            {t('common.pageOf', { current: tasks.current_page, total: tasks.last_page })}
           </span>
           <Button
+            className="flex items-center gap-2"
             variant="secondary"
             onClick={() => onPageChange(tasks.current_page + 1)}
             disabled={tasks.current_page === tasks.last_page}
+            aria-label={t('common.next')}
           >
-            Next
+            {t('common.next')}
+            {isRTL ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
           </Button>
-        </div>
+        </nav>
       )}
     </div>
   );

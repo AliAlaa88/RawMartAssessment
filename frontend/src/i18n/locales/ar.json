@@ -8,7 +8,11 @@
     "edit": "تعديل",
     "add": "إضافة",
     "submit": "إرسال",
-    "logout": "تسجيل الخروج"
+    "logout": "تسجيل الخروج",
+    "previous": "السابق",
+    "next": "التالي",
+    "pageOf": "صفحة {{current}} من {{total}}",
+    "pagination": "التنقل بين الصفحات"
   },
   "auth": {
     "login": "تسجيل الدخول",
@@ -21,7 +25,9 @@
     "hasAccount": "لديك حساب بالفعل؟",
     "loginSuccess": "تم تسجيل الدخول بنجاح",
     "registerSuccess": "تم إنشاء الحساب بنجاح",
-    "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة"
+    "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+    "logoutTitle": "تسجيل الخروج",
+    "logoutConfirm": "هل أنت متأكد من تسجيل الخروج؟"
   },
   "tasks": {
     "title": "مهامي",
@@ -30,13 +36,29 @@
     "taskTitle": "العنوان",
     "taskDescription": "الوصف (اختياري)",
     "taskStatus": "الحالة",
+    "deadline": "الموعد النهائي",
+    "dueDate": "الاستحقاق: {{date}}",
     "noTasks": "لا توجد مهام بعد. أنشئ مهمتك الأولى!",
-    "deleteConfirm": "هل أنت متأكد من حذف هذه المهمة؟",
+    "deleteTitle": "حذف المهمة",
+    "deleteConfirm": "هل أنت متأكد من حذف هذه المهمة؟ لا يمكن التراجع عن هذا الإجراء.",
     "status": {
       "pending": "قيد الانتظار",
       "in_progress": "قيد التنفيذ",
       "done": "مكتملة"
+    },
+    "time": {
+      "overdue": "متأخر",
+      "daysHoursLeft": "{{days}} يوم {{hours}} ساعة متبقية",
+      "hoursMinutesLeft": "{{hours}} ساعة {{minutes}} دقيقة متبقية",
+      "minutesLeft": "{{minutes}} دقيقة متبقية"
     }
+  },
+  "meta": {
+    "appName": "تاسك فلو",
+    "loginTitle": "تسجيل الدخول - تاسك فلو",
+    "registerTitle": "إنشاء حساب - تاسك فلو",
+    "tasksTitle": "مهامي - تاسك فلو",
+    "description": "إدارة مهامك بكفاءة مع تاسك فلو"
   },
   "errors": {
     "required": "هذا الحقل مطلوب",

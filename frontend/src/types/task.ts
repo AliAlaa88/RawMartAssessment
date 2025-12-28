@@ -5,6 +5,7 @@ export interface Task {
   title: string;
   description: string | null;
   status: TaskStatus;
+  deadline: string | null;
   user_id: number;
   created_at: string;
   updated_at: string;
@@ -14,12 +15,14 @@ export interface CreateTaskRequest {
   title: string;
   description?: string;
   status?: TaskStatus;
+  deadline?: string | null;
 }
 
 export interface UpdateTaskRequest {
   title?: string;
   description?: string;
   status?: TaskStatus;
+  deadline?: string | null;
 }
 
 export interface PaginatedTasks {

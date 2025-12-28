@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { Login, Register, Tasks } from '@/pages';
+import { LoginContainer, RegisterContainer, TasksContainer } from '@/containers';
 import { ProtectedRoute } from './ProtectedRoute';
 
 export function AppRouter() {
@@ -7,12 +7,12 @@ export function AppRouter() {
     <BrowserRouter>
       <Routes>
         {/* Public Routes */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<LoginContainer />} />
+        <Route path="/register" element={<RegisterContainer />} />
 
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/tasks" element={<Tasks />} />
+          <Route path="/tasks" element={<TasksContainer />} />
         </Route>
 
         {/* Default redirect */}

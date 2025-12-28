@@ -1,39 +1,42 @@
-import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useNavigate } from 'react-router-dom';
-import { Button, Input } from '@/components/common';
-import { authApi } from '@/api';
-import { useAuth } from '@/context';
+import { Link } from 'react-router-dom';
+import { Button, Input, ThemeToggle, LanguageSwitcher } from '@/components/common';
 
-export function Login() {
+interface LoginViewProps {
+  email: string;
+  password: string;
+  error: string;
+  isLoading: boolean;
+  onEmailChange: (value: string) => void;
+  onPasswordChange: (value: string) => void;
+  onSubmit: () => void;
+}
+
+export function LoginView({
+  email,
+  password,
+  error,
+  isLoading,
+  onEmailChange,
+  onPasswordChange,
+  onSubmit,
+}: LoginViewProps) {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const { login } = useAuth();
-  
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    setError('');
-    setIsLoading(true);
-
-    try {
-      const response = await authApi.login({ email, password });
-      login(response.token, response.user);
-      navigate('/tasks');
-    } catch (err: any) {
-      setError(err.response?.data?.message || t('auth.invalidCredentials'));
-    } finally {
-      setIsLoading(false);
-    }
+    onSubmit();
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-secondary p-4">
+    <div className="min-h-screen flex items-center justify-center bg-secondary p-4 relative">
+      {/* Top-right controls */}
+      <div className="absolute top-4 right-4 flex items-center gap-2">
+        <LanguageSwitcher />
+        <ThemeToggle />
+      </div>
+
       <div className="card w-full max-w-md">
         <h1 className="text-2xl font-bold text-primary text-center mb-6">
           {t('auth.login')}
@@ -50,7 +53,7 @@ export function Login() {
             label={t('auth.email')}
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => onEmailChange(e.target.value)}
             required
           />
           
@@ -58,7 +61,7 @@ export function Login() {
             label={t('auth.password')}
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => onPasswordChange(e.target.value)}
             required
           />
 

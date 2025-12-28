@@ -7,8 +7,10 @@ import type {
 } from "@/types";
 
 export const taskApi = {
-  getTasks: async (page = 1): Promise<PaginatedTasks> => {
-    const response = await api.get<PaginatedTasks>(`/tasks?page=${page}`);
+  getTasks: async (page = 1, perPage = 10): Promise<PaginatedTasks> => {
+    const response = await api.get<PaginatedTasks>(
+      `/tasks?page=${page}&per_page=${perPage}`
+    );
     return response.data;
   },
 

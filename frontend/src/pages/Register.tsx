@@ -1,68 +1,50 @@
-import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useNavigate } from 'react-router-dom';
-import { Button, Input } from '@/components/common';
-import { authApi } from '@/api';
-import { useAuth } from '@/context';
+import { Link } from 'react-router-dom';
+import { Button, Input, ThemeToggle, LanguageSwitcher } from '@/components/common';
 
-export function Register() {
+interface RegisterViewProps {
+  name: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+  errors: Record<string, string>;
+  isLoading: boolean;
+  onNameChange: (value: string) => void;
+  onEmailChange: (value: string) => void;
+  onPasswordChange: (value: string) => void;
+  onPasswordConfirmChange: (value: string) => void;
+  onSubmit: () => void;
+}
+
+export function RegisterView({
+  name,
+  email,
+  password,
+  passwordConfirm,
+  errors,
+  isLoading,
+  onNameChange,
+  onEmailChange,
+  onPasswordChange,
+  onPasswordConfirmChange,
+  onSubmit,
+}: RegisterViewProps) {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const { login } = useAuth();
-  
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [isLoading, setIsLoading] = useState(false);
 
-  const validate = (): boolean => {
-    const newErrors: Record<string, string> = {};
-    
-    if (!name.trim()) newErrors.name = t('errors.required');
-    if (!email.trim()) newErrors.email = t('errors.required');
-    if (password.length < 8) newErrors.password = t('errors.passwordMin');
-    if (password !== passwordConfirm) newErrors.passwordConfirm = t('errors.passwordMatch');
-    
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!validate()) return;
-    
-    setIsLoading(true);
-
-    try {
-      const response = await authApi.register({
-        name,
-        email,
-        password,
-        password_confirmation: passwordConfirm,
-      });
-      login(response.token, response.user);
-      navigate('/tasks');
-    } catch (err: any) {
-      const serverErrors = err.response?.data?.errors;
-      if (serverErrors) {
-        const mapped: Record<string, string> = {};
-        Object.keys(serverErrors).forEach((key) => {
-          mapped[key] = serverErrors[key][0];
-        });
-        setErrors(mapped);
-      } else {
-        setErrors({ general: err.response?.data?.message || t('common.error') });
-      }
-    } finally {
-      setIsLoading(false);
-    }
+    onSubmit();
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-secondary p-4">
+    <div className="min-h-screen flex items-center justify-center bg-secondary p-4 relative">
+      {/* Top-right controls */}
+      <div className="absolute top-4 right-4 flex items-center gap-2">
+        <LanguageSwitcher />
+        <ThemeToggle />
+      </div>
+
       <div className="card w-full max-w-md">
         <h1 className="text-2xl font-bold text-primary text-center mb-6">
           {t('auth.register')}
@@ -78,7 +60,7 @@ export function Register() {
           <Input
             label={t('auth.name')}
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => onNameChange(e.target.value)}
             error={errors.name}
             required
           />
@@ -87,7 +69,7 @@ export function Register() {
             label={t('auth.email')}
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => onEmailChange(e.target.value)}
             error={errors.email}
             required
           />
@@ -96,7 +78,7 @@ export function Register() {
             label={t('auth.password')}
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => onPasswordChange(e.target.value)}
             error={errors.password}
             required
           />
@@ -105,7 +87,7 @@ export function Register() {
             label={t('auth.confirmPassword')}
             type="password"
             value={passwordConfirm}
-            onChange={(e) => setPasswordConfirm(e.target.value)}
+            onChange={(e) => onPasswordConfirmChange(e.target.value)}
             error={errors.passwordConfirm}
             required
           />
