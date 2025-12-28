@@ -13,7 +13,7 @@ return [
 
     'allowed_origins_patterns' => [],
 
-    'allowed_headers' => ['Content-Type', 'X-Requested-With', 'Authorization', 'Accept'], // Be explicit
+    'allowed_headers' => ['*'], // Use wildcard to avoid preflight failures
 
     'exposed_headers' => [],
 
